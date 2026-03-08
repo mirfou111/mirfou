@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+    const contes = await getCollection('contes', ({ data }) => !data.draft);
+    return contes.map(conte => ({
+        params: { slug: conte.id },
+        props: { conte },
+    }));
+}
+
+const { conte } = Astro.props;
+const { Content } = await render(conte);
+---
+
+<BaseLayout title={conte.data.title} description={conte.data.description}>
+    <article>
+        <header>
+            <h1>{conte.data.title}</h1>
+            <time>{conte.data.pubDate.toLocaleDateString('fr-FR')}</time>
+            <p>{conte.data.description}</p>
+        </header>
+        <Content />
+    </article>
+</BaseLayout>

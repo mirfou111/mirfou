@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+    const tutos = await getCollection('tutos', ({ data }) => !data.draft);
+    return tutos.map(tuto => ({
+        params: { slug: tuto.id },
+        props: { tuto },
+    }));
+}
+
+const { tuto } = Astro.props;
+const { Content } = await render(tuto);
+---
+
+<BaseLayout title={tuto.data.title} description={tuto.data.description}>
+    <article>
+        <header>
+            <h1>{tuto.data.title}</h1>
+            <time>{tuto.data.pubDate.toLocaleDateString('fr-FR')}</time>
+            <p>{tuto.data.description}</p>
+        </header>
+        <Content />
+    </article>
+</BaseLayout>

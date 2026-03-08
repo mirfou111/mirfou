@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+    const reflexions = await getCollection('reflexions', ({ data }) => !data.draft);
+    return reflexions.map(reflexion => ({
+        params: { slug: reflexion.id },
+        props: { reflexion },
+    }));
+}
+
+const { reflexion } = Astro.props;
+const { Content } = await render(reflexion);
+---
+
+<BaseLayout title={reflexion.data.title} description={reflexion.data.description}>
+    <article>
+        <header>
+            <h1>{reflexion.data.title}</h1>
+            <time>{reflexion.data.pubDate.toLocaleDateString('fr-FR')}</time>
+            <p>{reflexion.data.description}</p>
+        </header>
+        <Content />
+    </article>
+</BaseLayout>
