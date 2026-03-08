@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { Tag as TagIcon } from 'lucide-astro';
+
+export async function getStaticPaths() {
+    const [articles, contes, tutos, reflexions] = await Promise.all([
+        getCollection('articles', ({ data }) => !data.draft),
+        getCollection('contes', ({ data }) => !data.draft),
+        getCollection('tutos', ({ data }) => !data.draft),
+        getCollection('reflexions', ({ data }) => !data.draft),
+    ]);
+
+    // On mappe chaque item avec sa section
+    const allItems = [
+        ...articles.map(i => ({ ...i, section: 'articles', color: '#c8922a' })),
+        ...contes.map(i => ({ ...i, section: 'contes', color: '#7c9e6f' })),
+        ...tutos.map(i => ({ ...i, section: 'tutos', color: '#6f8fae' })),
+        ...reflexions.map(i => ({ ...i, section: 'reflexions', color: '#9e7c9e' })),
+    ];
+
+    // On collecte tous les tags uniques
+    const allTags = [...new Set(allItems.flatMap(i => i.data.tags ?? []))];
+
+    return allTags.map(tag => ({
+        params: { tag },
+        props: {
+            tag,
+            items: allItems.filter(i => i.data.tags?.includes(tag)),
+        },
+    }));
+}
+
+const { tag, items } = Astro.props;
+---
+
+<BaseLayout title={`#${tag} — mirfou`}>
+    <div class="page">
+        <header class="page-header">
+            <div class="page-title-group">
+                <TagIcon size={28} color="var(--color-accent)" />
+                <h1>#{tag}</h1>
+            </div>
+            <p class="page-sub">{items.length} contenu{items.length > 1 ? 's' : ''} dans le jardin.</p>
+        </header>
+
+        <ul class="grid">
+            {items.map(item => (
+                <li>
+                    <PostCard
+                        title={item.data.title}
+                        description={item.data.description}
+                        pubDate={item.data.pubDate}
+                        href={`/${item.section}/${item.id}`}
+                        tags={item.data.tags}
+                        color={item.color}
+                    />
+                </li>
+            ))}
+        </ul>
+    </div>
+</BaseLayout>
+
+<style>
+    .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 6rem;
+    }
+
+    .page-header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--color-surface);
+    }
+
+    .page-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        margin: 0;
+        color: var(--color-text);
+    }
+
+    .page-sub {
+        color: var(--color-muted);
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+    }
+</style>

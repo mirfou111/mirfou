@@ -1,17 +1,16 @@
 // @ts-check
-
+import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import { defineConfig } from 'astro/config';
-
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://mirfou.com',
   integrations: [mdx(), sitemap()],
 
   vite: {
+    // Tailwind v4 se place ici, dans la configuration Vite
     plugins: [tailwindcss()],
   },
 });

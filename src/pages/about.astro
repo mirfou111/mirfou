@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { User } from 'lucide-astro';
+---
+
+<BaseLayout title="About — mirfou">
+    <div class="page">
+
+        <header class="page-header">
+            <div class="page-title-group">
+                <User size={28} color="var(--color-accent)" />
+                <h1>About</h1>
+            </div>
+        </header>
+
+        <div class="about-content">
+
+            <section class="about-section">
+                <h2>Qui est mirfou ?</h2>
+                <p>
+                    Mirfou c'est le verlan de fourmi — mon totem.
+                    Comme elle, je construis patiemment, grain par grain,
+                    sans jamais perdre de vue la colonie.
+                </p>
+                <p>
+                    Ce jardin secret est mon espace à moi. Un endroit pour
+                    penser à voix haute, partager ce que j'apprends, raconter
+                    des histoires, et laisser des traces.
+                </p>
+            </section>
+
+            <section class="about-section">
+                <h2>Ce que tu trouveras ici</h2>
+                <ul class="about-list">
+                    <li>
+                        <span class="label articles">Articles</span>
+                        Des réflexions longues, des essais, des analyses de fond.
+                    </li>
+                    <li>
+                        <span class="label contes">Contes</span>
+                        Des histoires inventées, des fables, des univers imaginaires.
+                    </li>
+                    <li>
+                        <span class="label tutos">Tutos</span>
+                        Des guides pratiques sur ce que j'apprends et utilise.
+                    </li>
+                    <li>
+                        <span class="label reflexions">Réflexions</span>
+                        Des fragments courts, des pensées en cours, des instants.
+                    </li>
+                </ul>
+            </section>
+
+            <section class="about-section">
+                <h2>Le totem fourmi</h2>
+                <p>
+                    La fourmi porte 50 fois son poids. Elle construit des galeries
+                    complexes sans architecte central. Elle communique sans parler.
+                    Elle ne s'arrête jamais.
+                </p>
+                <p>
+                    C'est ça que j'essaie d'être — quelqu'un qui construit,
+                    qui persiste, qui contribue à quelque chose de plus grand
+                    que lui, grain par grain.
+                </p>
+            </section>
+
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    .page {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 6rem;
+    }
+
+    .page-header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--color-surface);
+    }
+
+    .page-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        margin: 0;
+        color: var(--color-text);
+    }
+
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .about-section h2 {
+        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        color: var(--color-accent);
+        margin: 0 0 1rem;
+    }
+
+    .about-section p {
+        color: var(--color-muted);
+        line-height: 1.8;
+        margin: 0 0 1rem;
+    }
+
+    .about-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .about-list li {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        color: var(--color-muted);
+        line-height: 1.6;
+    }
+
+    .label {
+        font-size: 0.75rem;
+        padding: 0.15rem 0.6rem;
+        border-radius: 4px;
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    .articles { background-color: #c8922a22; color: #c8922a; }
+    .contes   { background-color: #7c9e6f22; color: #7c9e6f; }
+    .tutos    { background-color: #6f8fae22; color: #6f8fae; }
+    .reflexions { background-color: #9e7c9e22; color: #9e7c9e; }
+</style>

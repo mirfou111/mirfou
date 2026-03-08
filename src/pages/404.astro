@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Home, ArrowLeft } from 'lucide-astro';
+---
+
+<BaseLayout title="404 — page introuvable">
+    <div class="page">
+        <div class="content">
+            <p class="code">404</p>
+            <h1>Cette galerie n'existe pas</h1>
+            <p class="sub">
+                La fourmi a cherché partout dans le jardin —
+                cette page ne se trouve nulle part dans les tunnels.
+            </p>
+            <div class="actions">
+                <a href="/" class="btn-primary">
+                    <Home size={16} />
+                    <span>Retour au jardin</span>
+                </a>
+                <a onclick="history.back()" class="btn-secondary">
+                    <ArrowLeft size={16} />
+                    <span>Page précédente</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content {
+        text-align: center;
+        max-width: 480px;
+    }
+
+    .code {
+        font-family: var(--font-serif);
+        font-size: clamp(6rem, 20vw, 10rem);
+        color: var(--color-surface);
+        line-height: 1;
+        margin: 0 0 1rem;
+        user-select: none;
+    }
+
+    h1 {
+        font-family: var(--font-serif);
+        font-size: clamp(1.5rem, 4vw, 2rem);
+        color: var(--color-text);
+        margin: 0 0 1rem;
+    }
+
+    .sub {
+        color: var(--color-muted);
+        line-height: 1.7;
+        margin: 0 0 2.5rem;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--color-accent);
+        color: var(--color-bg);
+        padding: 0.6rem 1.25rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: opacity 0.2s;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.85;
+        color: var(--color-bg);
+    }
+
+    .btn-secondary {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--color-muted);
+        padding: 0.6rem 1.25rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        border: 1px solid var(--color-surface);
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+        color: var(--color-text);
+        border-color: var(--color-accent-soft);
+    }
+</style>

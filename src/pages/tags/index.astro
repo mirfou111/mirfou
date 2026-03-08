@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Tag } from 'lucide-astro';
+
+// On récupère toutes les collections
+const [articles, contes, tutos, reflexions] = await Promise.all([
+    getCollection('articles', ({ data }) => !data.draft),
+    getCollection('contes', ({ data }) => !data.draft),
+    getCollection('tutos', ({ data }) => !data.draft),
+    getCollection('reflexions', ({ data }) => !data.draft),
+]);
+
+// On agrège tous les tags de toutes les collections
+const allItems = [...articles, ...contes, ...tutos, ...reflexions];
+
+// On compte les occurrences de chaque tag
+const tagCount = allItems.reduce((acc, item) => {
+    item.data.tags?.forEach(tag => {
+        acc[tag] = (acc[tag] || 0) + 1;
+    });
+    return acc;
+}, {} as Record<string, number>);
+
+// On trie par nombre d'occurrences
+const tags = Object.entries(tagCount)
+    .sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags — mirfou">
+    <div class="page">
+        <header class="page-header">
+            <div class="page-title-group">
+                <Tag size={28} color="var(--color-accent)" />
+                <h1>Tags</h1>
+            </div>
+            <p class="page-sub">Tous les thèmes du jardin.</p>
+        </header>
+
+        {tags.length === 0 ? (
+            <p class="empty">Aucun tag pour le moment.</p>
+        ) : (
+            <ul class="tags-grid">
+                {tags.map(([tag, count]) => (
+                    <li>
+                        <a href={`/tags/${tag}`} class="tag-card">
+                            <span class="tag-name">{tag}</span>
+                            <span class="tag-count">{count}</span>
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
+</BaseLayout>
+
+<style>
+    .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem 6rem;
+    }
+
+    .page-header {
+        margin-bottom: 3rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--color-surface);
+    }
+
+    .page-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        margin: 0;
+        color: var(--color-text);
+    }
+
+    .page-sub {
+        color: var(--color-muted);
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .tags-grid {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .tag-card {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--color-surface);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+    }
+
+    .tag-card:hover {
+        border-color: var(--color-accent-soft);
+        color: var(--color-accent);
+    }
+
+    .tag-name {
+        color: var(--color-text);
+        font-size: 0.95rem;
+    }
+
+    .tag-count {
+        background-color: var(--color-bg);
+        color: var(--color-muted);
+        font-size: 0.75rem;
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+    }
+
+    .empty {
+        color: var(--color-muted);
+        font-style: italic;
+    }
+</style>
