@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostLayout from '../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
     const tutos = await getCollection('tutos', ({ data }) => !data.draft);
@@ -14,13 +14,15 @@ const { tuto } = Astro.props;
 const { Content } = await render(tuto);
 ---
 
-<BaseLayout title={tuto.data.title} description={tuto.data.description}>
-    <article>
-        <header>
-            <h1>{tuto.data.title}</h1>
-            <time>{tuto.data.pubDate.toLocaleDateString('fr-FR')}</time>
-            <p>{tuto.data.description}</p>
-        </header>
-        <Content />
-    </article>
-</BaseLayout>
+<PostLayout
+    title={tuto.data.title}
+    description={tuto.data.description}
+    pubDate={tuto.data.pubDate}
+    updatedDate={tuto.data.updatedDate}
+    tags={tuto.data.tags}
+    backHref="/tutos"
+    backLabel="Tutos"
+    accentColor="#6f8fae"
+>
+    <Content />
+</PostLayout>

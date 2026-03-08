@@ -1,24 +1,86 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { Scroll } from 'lucide-astro';
 
-const articles = await getCollection('articles', ({ data }) => !data.draft);
-articles.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const contes = (await getCollection('contes', ({ data }) => !data.draft))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title="Articles — mirfou">
-    <section>
-        <h1>✍️ Articles</h1>
-        <ul>
-            {articles.map(article => (
-                <li>
-                    <a href={`/articles/${article.id}`}>
-                        <h2>{article.data.title}</h2>
-                        <time>{article.data.pubDate.toLocaleDateString('fr-FR')}</time>
-                        <p>{article.data.description}</p>
-                    </a>
-                </li>
-            ))}
-        </ul>
-    </section>
+<BaseLayout title="Contes — mirfou">
+    <div class="page">
+        <header class="page-header">
+            <div class="page-title-group">
+                <Scroll size={28} color="#7c9e6f" />
+                <h1>Contes</h1>
+            </div>
+            <p class="page-sub">Histoires, fables et récits imaginaires.</p>
+        </header>
+
+        {contes.length === 0 ? (
+            <p class="empty">Aucun conte pour le moment. Bientôt...</p>
+        ) : (
+            <ul class="grid">
+                {contes.map(conte => (
+                    <li>
+                        <PostCard
+                            title={conte.data.title}
+                            description={conte.data.description}
+                            pubDate={conte.data.pubDate}
+                            href={`/contes/${conte.id}`}
+                            tags={conte.data.tags}
+                            color="#7c9e6f"
+                        />
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
 </BaseLayout>
+
+<style>
+    .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+    }
+
+    .page-header {
+        margin-bottom: 3rem;
+    }
+
+    .page-title-group {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        margin: 0;
+        color: var(--color-text);
+    }
+
+    .page-sub {
+        color: var(--color-muted);
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .grid {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.25rem;
+    }
+
+    .empty {
+        color: var(--color-muted);
+        font-style: italic;
+    }
+</style>

@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostLayout from '../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
     const contes = await getCollection('contes', ({ data }) => !data.draft);
@@ -14,13 +14,15 @@ const { conte } = Astro.props;
 const { Content } = await render(conte);
 ---
 
-<BaseLayout title={conte.data.title} description={conte.data.description}>
-    <article>
-        <header>
-            <h1>{conte.data.title}</h1>
-            <time>{conte.data.pubDate.toLocaleDateString('fr-FR')}</time>
-            <p>{conte.data.description}</p>
-        </header>
-        <Content />
-    </article>
-</BaseLayout>
+<PostLayout
+    title={conte.data.title}
+    description={conte.data.description}
+    pubDate={conte.data.pubDate}
+    updatedDate={conte.data.updatedDate}
+    tags={conte.data.tags}
+    backHref="/contes"
+    backLabel="Contes"
+    accentColor="#7c9e6f"
+>
+    <Content />
+</PostLayout>
