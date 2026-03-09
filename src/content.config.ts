@@ -23,16 +23,18 @@ export const collections = {
     }),
     contes: defineCollection({
         loader: glob({ base: './src/content/contes', pattern: '**/*.{md,mdx}' }),
-        schema: ({ image }) => baseSchema({ image }).extend({
-            // Les contes ont un champ en plus
-            univers: z.string().optional(), // ex: "fantastique", "fable", "sci-fi"
-        }),
+        schema: baseSchema,
     }),
     reflexions: defineCollection({
         loader: glob({ base: './src/content/reflexions', pattern: '**/*.{md,mdx}' }),
+        schema: baseSchema,
+    }),
+    recherches: defineCollection({
+        loader: glob({ base: './src/content/recherches', pattern: '**/*.{md,mdx}' }),
         schema: ({ image }) => baseSchema({ image }).extend({
-            // Réflexions courtes, pas forcément d'image
-            humeur: z.string().optional(), // ex: "pensif", "enthousiaste"...
+            annee: z.number().optional(),
+            domaine: z.string().optional(),
+            institution: z.string().optional(),
         }),
     }),
 };
