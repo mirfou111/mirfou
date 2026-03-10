@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AntIcon from '../components/AntIcon.astro';
 import { getCollection } from 'astro:content';
+import MementoMori from '../components/MementoMori.astro';
 import { BookOpen, Scroll, Terminal, Brain, FlaskConical, ArrowRight } from 'lucide-astro';
 
 const [articles, contes, tutos, reflexions, recherches] = await Promise.all([
@@ -27,19 +28,20 @@ const sections = [
     <div class="home">
 
         <!-- Hero -->
-        <section class="hero">
-            <div class="hero-ant">
-                <AntIcon size={48} />
-            </div>
-            <div class="hero-text">
-                <h1 class="hero-title">MIRFOU</h1>
-                <p class="hero-sub">
-                    Un jardin secret. Des articles, des réflexions,<br/>
-                    des tutos, des contes et des recherches.<br/>
-                    Construit grain par grain.
-                </p>
-            </div>
+         
+        <!-- Memento Mori -->
+        <section class="home-section" id="memento">
+            <MementoMori />
         </section>
+
+        <!-- Juste un séparateur avec la signature -->
+        <div class="garden-intro">
+            <span class="garden-quote">
+                La fourmi ne compte pas les grains déjà portés.<br/>
+                Elle regarde ceux qui restent à porter.
+            </span>
+            <span class="garden-label">Le jardin</span>
+        </div>
 
         <div class="divider"></div>
 
@@ -232,5 +234,43 @@ const sections = [
     @media (max-width: 640px) {
         .home { padding: 2rem 1.5rem 4rem; }
         .hero { flex-direction: column; gap: 1rem; align-items: flex-start; }
+    }
+
+    .garden-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2.5rem 0;
+    text-align: center;
+    }
+
+    .garden-quote {
+        font-size: 0.95rem;
+        font-style: italic;
+        color: var(--color-muted);
+        line-height: 1.8;
+        max-width: 420px;
+    }
+
+    .garden-label {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--color-muted);
+        font-family: var(--font-mono);
+        white-space: nowrap;
+    }
+
+    .garden-label::before,
+    .garden-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: var(--color-border);
     }
 </style>
