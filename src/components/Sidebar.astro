@@ -3,13 +3,14 @@ import AntIcon from './AntIcon.astro';
 import {
     Home, BookOpen, Scroll, Terminal,
     Brain, FlaskConical, Tag, User,
-    Wrench, Search, Sun, Moon
+    Wrench, Search, Sun, Moon, FolderOpen 
 } from 'lucide-astro';
 import { SITE_LOCATION } from '../consts';
 
 const navItems = [
     { href: '/',            label: 'Accueil',      icon: Home,          key: 'h' },
     { href: '/articles',    label: 'Articles',     icon: BookOpen,      key: 'a' },
+    { href: '/projets',     label: 'Projets',      icon: FolderOpen,    key: 'j' },
     { href: '/contes',      label: 'Contes',       icon: Scroll,        key: 'c' },
     { href: '/tutos',       label: 'Tutos',        icon: Terminal,      key: 't' },
     { href: '/reflexions',  label: 'Réflexions',   icon: Brain,         key: 'r' },
